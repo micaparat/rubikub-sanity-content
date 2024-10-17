@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@sanity/client";
 import imageUrlBuilder from "https://esm.sh/@sanity/image-url";
+import { projectTemplate } from "./portfolio-item.js";
 
 const sanityClient = createClient({
   projectId: "4ie5mdlg",
@@ -33,82 +34,28 @@ sanityClient
   }
 `
   )
-  .then((projects) => {
-    projects.forEach((project, index) => {
-      const projectTemplate = `
-                <a href="#" class="portfolio_item w-inline-block" data-index="${index}">
-                    <div class="portfolio-image_wrapper" style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                        <img src="${urlFor(
-                          project.mainimage.asset
-                        ).url()}" loading="eager" alt="${
-        project.projectname
-      }" class="project-main-image">
-                        <div class="white-reflection" style="will-change: transform; transform: translate3d(25%, -30%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-21deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                        </div>
-                        <div class="project-image-overlay"></div>
-                    </div>
-                    <div class="portfolio-main-title_wrapper">
-                        <div class="portfolio-counter_wrapper">
-                            <div class="text-size-large">00.${index + 1}</div>
-                            <div class="portfolio-counter_line"></div>
-                        </div>
-                        <div class="portfolio-title_wrapper">
-                            <div class="portfolio-title_text">${
-                              project.projectname
-                            }</div>
-                        </div>
-                    </div>
-                    <div class="margin-top margin-small">
-                        <div class="padding-global">
-                            <div class="container-large">
-                                <div class="portfolio-bottom-content_wrapper text-color-brown text-style-italic">
-                                    <div class="margin-bottom margin-xsmall">
-                                        <div class="portfolio-info-content_wrapper">
-                                            <div class="portfolio-description-wrapper">
-                                                <div class="type-of-client">${
-                                                  project.client
-                                                }</div>
-                                                <div class="proj-location">${
-                                                  project.location
-                                                }</div>
-                                            </div>
-                                            <div class="portfolio-description-wrapper">
-                                                ${
-                                                  project.services
-                                                    ? project.services
-                                                        .map(
-                                                          (service) =>
-                                                            `<div class="work-you-did">${service}</div>`
-                                                        )
-                                                        .join("")
-                                                    : ""
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="portfolio-testim_wrapper">
-                                        <div class="w-embed"><svg diplay="block" width="32" height="25" viewBox="0 0 32 25">
-                                                <g id="Group_13" data-name="Group 13" transform="translate(-303 -737)">
-                                                    <path id="Union_1" data-name="Union 1"
-                                                        d="M9.079,21V14.889A7.532,7.532,0,1,1,15,7.528V21Z"
-                                                        transform="translate(303 737)" fill="currentColor"></path>
-                                                    <path id="Union_2" data-name="Union 2"
-                                                        d="M9.079,21V14.889A7.532,7.532,0,1,1,15,7.528V21Z"
-                                                        transform="translate(320 741)" fill="currentColor"></path>
-                                                </g>
-                                            </svg></div>
-                                        <div class="portfolio-testimonial-short">${
-                                          project.testimonial
-                                        }</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            `;
+  .then(async (projects) => {
+    const template = await loadTemplate(); // Load the template once
 
-      // Append the generated template to a container in your Webflow page
+    projects.forEach((project, index) => {
+      // Replace placeholders with actual project data
+      const projectTemplate = template
+        .replace(/{index}/g, index)
+        .replace(/{mainImageUrl}/g, urlFor(project.mainimage.asset).url())
+        .replace(/{projectName}/g, project.projectname)
+        .replace(/{client}/g, project.client)
+        .replace(/{location}/g, project.location)
+        .replace(
+          /{services}/g,
+          project.services
+            ? project.services
+                .map((service) => `<div class="work-you-did">${service}</div>`)
+                .join("")
+            : ""
+        )
+        .replace(/{testimonial}/g, project.testimonial);
+
+      // Append the generated template to a container
       document.querySelector(".portfolio_list").innerHTML += projectTemplate;
 
       // Attach event listener for modal trigger using event delegation
@@ -139,7 +86,6 @@ $(".portfolio-slider-close-button").on("click", function (event) {
 function populateSlider(currentProject) {
   const $sliderContainer = $(".slider-container");
   const $sliderIndicators = $(".slider-indicators");
-  const sliderElement = document.querySelector(".swiffy-slider");
 
   // Clear any existing slides and dots
   $sliderContainer.empty();
@@ -179,6 +125,11 @@ function populateSlider(currentProject) {
 
   // Reinitialize Swiffy Slider after populating it with dynamic content
   swiffyslider.init(); // This ensures the slider works properly after adding slides dynamically
+}
+
+async function loadTemplate() {
+  const response = await fetch("project-template.html");
+  return response.text(); // Fetch the template as a string
 }
 
 // Function to depopulate the slider with images from the gallery and generate navigation dots

@@ -1,0 +1,53 @@
+<a href="#" class="portfolio_item w-inline-block" data-index="{index}">
+    <div class="portfolio-image_wrapper"
+        style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+        <img src="{mainImageUrl}" loading="eager" alt="{projectName}" class="project-main-image">
+        <div class="white-reflection"
+            style="will-change: transform; transform: translate3d(25%, -30%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-21deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+        </div>
+        <div class="project-image-overlay"></div>
+    </div>
+    <div class="portfolio-main-title_wrapper">
+        <div class="portfolio-counter_wrapper">
+            <div class="text-size-large">00.{index}</div>
+            <div class="portfolio-counter_line"></div>
+        </div>
+        <div class="portfolio-title_wrapper">
+            <div class="portfolio-title_text">{projectName}</div>
+        </div>
+    </div>
+    <div class="margin-top margin-small">
+        <div class="padding-global">
+            <div class="container-large">
+                <div class="portfolio-bottom-content_wrapper text-color-brown text-style-italic">
+                    <div class="margin-bottom margin-xsmall">
+                        <div class="portfolio-info-content_wrapper">
+                            <div class="portfolio-description-wrapper">
+                                <div class="type-of-client">{client}</div>
+                                <div class="proj-location">{location}</div>
+                            </div>
+                            <div class="portfolio-description-wrapper">
+                                {services}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-testim_wrapper">
+                        <div class="w-embed">
+                            <svg diplay="block" width="32" height="25" viewBox="0 0 32 25">
+                                <g id="Group_13" data-name="Group 13" transform="translate(-303 -737)">
+                                    <path id="Union_1" data-name="Union 1"
+                                        d="M9.079,21V14.889A7.532,7.532,0,1,1,15,7.528V21Z"
+                                        transform="translate(303 737)" fill="currentColor"></path>
+                                    <path id="Union_2" data-name="Union 2"
+                                        d="M9.079,21V14.889A7.532,7.532,0,1,1,15,7.528V21Z"
+                                        transform="translate(320 741)" fill="currentColor"></path>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="portfolio-testimonial-short">{testimonial}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
