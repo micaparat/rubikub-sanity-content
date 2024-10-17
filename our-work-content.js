@@ -44,6 +44,7 @@ sanityClient
         .replace(/{projectName}/g, project.projectname)
         .replace(/{client}/g, project.client)
         .replace(/{location}/g, project.location)
+        .replace(/{style}/g, project.style)
         .replace(
           /{services}/g,
           project.services
