@@ -128,7 +128,9 @@ function populateSlider(currentProject) {
 }
 
 async function loadTemplate() {
-  const response = await fetch("portfolio-item.html");
+  const response = await fetch(
+    "https://cdn.rawgit.com/micaparat/rubikub-sanity-content/refs/heads/main/portfolio-item.html"
+  );
   return response.text(); // Fetch the template as a string
 }
 
