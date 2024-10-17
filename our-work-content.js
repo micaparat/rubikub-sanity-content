@@ -1,6 +1,5 @@
 import { createClient } from "https://esm.sh/@sanity/client";
 import imageUrlBuilder from "https://esm.sh/@sanity/image-url";
-import { projectTemplate } from "./portfolio-item.js";
 
 const sanityClient = createClient({
   projectId: "4ie5mdlg",
@@ -128,7 +127,7 @@ function populateSlider(currentProject) {
 }
 
 async function loadTemplate() {
-  const response = await fetch("project-template.html");
+  const response = await fetch("portfolio-item.html");
   return response.text(); // Fetch the template as a string
 }
 
